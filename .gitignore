@@ -15,3 +15,21 @@ build/
 # Ignore IDE/editor settings
 .vscode/
 .idea/
+
+# Sensitive credentials
+*.pem
+*.key
+*secret*
+*credential*
+
+# Local configuration files that might contain sensitive data
+config.local.js
+*.config.local.json
+
+# Database files
+*.sql
+*.sqlite
+
+# Token files
+.token
+*.token

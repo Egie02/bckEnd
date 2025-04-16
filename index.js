@@ -6,10 +6,30 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const dbRoutes = require('./routes/dbRoutes');
 
-const allowedOrigins = process.env.NODE_ENV || 'http://localhost:8080'; // Production URL
+// Allow access from web clients
+const allowedOrigins = [
+  'http://localhost:8080',
+  process.env.NODE_ENV === 'development' ? '*' : process.env.NODE_ENV,
+  // Add your production domain when ready
+  // 'https://your-production-domain.com'
+];
 
 const corsOptions = {
-  origin: allowedOrigins ,
+  origin: function(origin, callback) {
+    // In development, allow all origins
+    if (process.env.NODE_ENV === 'development') {
+      return callback(null, true);
+    }
+    
+    // Allow requests with no origin (like mobile apps)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
