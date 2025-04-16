@@ -11,8 +11,6 @@ router.post('/profile/login', dbControll.loginEvent);
 //protected routes
 router.get('/profile/:PhoneNumber', authenticateToken, dbControll.getData);
 
-// Update PIN route - add authenticateToken middleware and change :id to :PhoneNumber
-router.put('/profile/auth/pin/:PhoneNumber', authenticateToken, dbControll.updatePIN);
 
 module.exports = {
     routes: router
